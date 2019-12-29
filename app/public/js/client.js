@@ -1,24 +1,20 @@
-const form = document.querySelector('form');
+function submitData(e) {
+    e.preventDefault();
 
-form.onsubmit = sendData;
-
-function sendData(event) {
-    event.preventDefault();
-
-    let f = new window.FormData(form);
-
-    let params = {
+    const form = new window.FormData(e.target);
+    let postRequest = {
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            name: f.get('name')
+            name: form.get('name')
         }),
         method: 'POST'
     }
-
-    fetch('http://localhost:3000/formData', params)
+    fetch('http://localhost:3000/submit', postRequest)
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(err => console.log(err))
 };
+
+document.querySelector('.auth-form').addEventListener('submit', submitData);
